@@ -3,19 +3,21 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 import ConnectionCard from '../components/ConnectionCard';
 import data from '../assets/data.json';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const connections = data.map((item) => ({
     name: `${item.first_name} ${item.last_name}`,
     age: new Date().getFullYear() - new Date(item.dob.split('/').reverse().join('-')).getFullYear(),
     location: `${item.location.city}, ${item.location.country}`,
     topMatch: item.score > 50,
   }));
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Daily Connections</Text>
-        <TouchableOpacity style={styles.filterButton}>
+        <TouchableOpacity
+          style={styles.filterButton}
+          onPress={() => navigation.navigate('Filter')}
+        >
           <Text style={styles.filterButtonText}>Filter</Text>
         </TouchableOpacity>
       </View>
@@ -31,7 +33,10 @@ const HomeScreen = () => {
         <TouchableOpacity style={styles.footerButton}>
           <Text style={styles.footerButtonText}>Activity</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.footerButton}>
+        <TouchableOpacity
+          style={styles.footerButton}
+          onPress={() => navigation.navigate('MyProfile')}
+        >
           <Text style={styles.footerButtonText}>Profile</Text>
         </TouchableOpacity>
       </View>
@@ -44,7 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingHorizontal: 20,
-    paddingTop: 50,
+  
   },
   header: {
     flexDirection: 'row',
