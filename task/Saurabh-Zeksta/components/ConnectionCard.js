@@ -1,30 +1,34 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
 const ConnectionCard = ({ name, age, location, topMatch }) => {
   return (
     <View style={styles.card}>
       {topMatch && <Text style={styles.topMatch}>TOP MATCH</Text>}
       <View style={styles.imageContainer}>
-        {/* <Image source={require('../assets/images/placeholder.png')} style={styles.image} /> */}
+        <Image source={require('../assets/pexels-pixabay-33109.jpg')} style={styles.image} />
       </View>
-      <Text style={styles.name}>{name}, {age}</Text>
-      <Text style={styles.location}>{location}</Text>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>View Profile</Text>
-      </TouchableOpacity>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.name}>{name}, {age}</Text>
+        <Text style={styles.location}>{location}</Text>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>View Profile</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#E91E63',
     borderRadius: 10,
     marginVertical: 10,
-    padding: 20,
-    alignItems: 'center',
-    position: 'relative'
+    width: Dimensions.get('window').width - 40,
+    alignSelf: 'center',
+    position: 'relative',
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#E91E63', // Adjust the color as needed
   },
   topMatch: {
     position: 'absolute',
@@ -36,39 +40,40 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 5,
     fontSize: 12,
+    zIndex: 1,
   },
   imageContainer: {
-    height: 100,
-    width: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FFF',
-    borderRadius: 50,
-    marginBottom: 10,
+    width: '100%',
+    height: 200,
   },
   image: {
-    height: 50,
-    width: 50,
+    width: '100%',
+    height: '100%',
+  },
+  detailsContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    alignItems: 'center',
   },
   name: {
     fontSize: 18,
-    color: 'white',
+    color: '#E91E63',
     marginBottom: 5,
   },
   location: {
     fontSize: 14,
-    color: 'white',
+    color: '#E91E63',
     marginBottom: 15,
   },
   button: {
-    borderColor: 'white',
+    borderColor: '#E91E63',
     borderWidth: 1,
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 20,
   },
   buttonText: {
-    color: 'white',
+    color: '#E91E63',
     fontSize: 14,
   },
 });

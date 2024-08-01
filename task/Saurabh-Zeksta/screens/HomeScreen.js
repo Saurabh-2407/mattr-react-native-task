@@ -1,12 +1,15 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import ConnectionCard from '../components/ConnectionCard';
+import data from '../assets/data.json';
 
 const HomeScreen = () => {
-  const connections = [
-    { name: 'Frank Stark', age: 23, location: 'London, United Kingdom', topMatch: true },
-    { name: 'Andreea Miles', age: 26, location: 'London, United Kingdom', topMatch: false },
-  ];
+  const connections = data.map((item) => ({
+    name: `${item.first_name} ${item.last_name}`,
+    age: new Date().getFullYear() - new Date(item.dob.split('/').reverse().join('-')).getFullYear(),
+    location: `${item.location.city}, ${item.location.country}`,
+    topMatch: item.score > 50,
+  }));
 
   return (
     <View style={styles.container}>
@@ -64,8 +67,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderWidth: 1,
     borderColor: '#E91E63',
-    borderRadius: 5,
+    borderRadius: 50,
     alignSelf: 'center',
+    backgroundColor: '#fff',
   },
   refreshButtonText: {
     color: '#E91E63',
@@ -78,7 +82,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     paddingVertical: 10,
-    borderTopWidth: 1,
     borderColor: '#E91E63',
   },
   footerButton: {
