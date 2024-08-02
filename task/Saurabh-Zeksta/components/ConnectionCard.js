@@ -1,7 +1,23 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 
-const ConnectionCard = ({ name, age, location, topMatch, image, navigation, user, showTopMatch }) => {
+const ConnectionCard = ({
+  name,
+  age,
+  location,
+  topMatch,
+  image,
+  navigation,
+  user,
+  showTopMatch,
+}) => {
   return (
     <View style={styles.card}>
       {showTopMatch && <Text style={styles.topMatch}>TOP MATCH</Text>}
@@ -9,11 +25,13 @@ const ConnectionCard = ({ name, age, location, topMatch, image, navigation, user
         <Image source={{ uri: image }} style={styles.image} />
       </View>
       <View style={styles.detailsContainer}>
-        <Text style={styles.name}>{name}, {age}</Text>
+        <Text style={styles.name}>
+          {name}, {age}
+        </Text>
         <Text style={styles.location}>{location}</Text>
-        <TouchableOpacity 
-          style={styles.button} 
-          onPress={() => navigation.navigate('UserProfile', { user })}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("UserProfile", { user })}
         >
           <Text style={styles.buttonText}>View Profile</Text>
         </TouchableOpacity>
@@ -26,19 +44,19 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 10,
     marginVertical: 10,
-    width: Dimensions.get('window').width - 40,
-    alignSelf: 'center',
-    position: 'relative',
-    overflow: 'hidden',
+    width: Dimensions.get("window").width - 40,
+    alignSelf: "center",
+    position: "relative",
+    overflow: "hidden",
     borderWidth: 1,
-    borderColor: '#e6ede8',
+    borderColor: "#e6ede8",
   },
   topMatch: {
-    position: 'absolute',
+    position: "absolute",
     top: 10,
     right: 10,
-    backgroundColor: '#E91E63',
-    color: 'white',
+    backgroundColor: "#E91E63",
+    color: "white",
     paddingHorizontal: 5,
     paddingVertical: 2,
     borderRadius: 5,
@@ -46,39 +64,39 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   imageContainer: {
-    width: '100%',
+    width: "100%",
     height: 200,
-    backgroundColor:'white'
+    backgroundColor: "white",
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   detailsContainer: {
-    backgroundColor: '#edebed',
+    backgroundColor: "#edebed",
     padding: 20,
   },
   name: {
     fontSize: 18,
-    color: 'black',
+    color: "black",
     marginBottom: 5,
   },
   location: {
     fontSize: 14,
-    color: 'black',
+    color: "black",
     marginBottom: 15,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   button: {
-    borderColor: '#E91E63',
+    borderColor: "#E91E63",
     borderWidth: 1,
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 100,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   buttonText: {
-    color: '#E91E63',
+    color: "#E91E63",
     fontSize: 14,
   },
 });

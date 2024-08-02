@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
-import { View, Image, StyleSheet, Text, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import React, { useState } from "react";
+import {
+  View,
+  Image,
+  StyleSheet,
+  Text,
+  Dimensions,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
-const { height, width } = Dimensions.get('window');
+const { height, width } = Dimensions.get("window");
 
 const UserProfile = ({ route, navigation }) => {
   const { user } = route.params;
@@ -19,7 +27,7 @@ const UserProfile = ({ route, navigation }) => {
   };
 
   const handleClosePress = () => {
-    navigation.navigate('Home');
+    navigation.navigate("Home");
   };
 
   return (
@@ -33,7 +41,11 @@ const UserProfile = ({ route, navigation }) => {
           scrollEventThrottle={16}
         >
           {user.photos.map((photo, index) => (
-            <Image key={index} source={{ uri: photo.path }} style={styles.image} />
+            <Image
+              key={index}
+              source={{ uri: photo.path }}
+              style={styles.image}
+            />
           ))}
         </ScrollView>
         <View style={styles.indicatorContainer}>
@@ -52,13 +64,23 @@ const UserProfile = ({ route, navigation }) => {
         <Icon name="close" size={30} color="black" />
       </TouchableOpacity>
       <View style={styles.details}>
-        <Text style={styles.name}>{user.first_name} {user.last_name}, {new Date().getFullYear() - new Date(user.dob.split('/').reverse().join('-')).getFullYear()}</Text>
+        <Text style={styles.name}>
+          {user.first_name} {user.last_name},{" "}
+          {new Date().getFullYear() -
+            new Date(user.dob.split("/").reverse().join("-")).getFullYear()}
+        </Text>
         <TouchableOpacity style={styles.heartIcon} onPress={handleHeartPress}>
-          <Icon name="favorite" size={30} color={isFavorite ? 'red' : '#d9cece'} />
+          <Icon
+            name="favorite"
+            size={30}
+            color={isFavorite ? "red" : "#d9cece"}
+          />
         </TouchableOpacity>
-        <Text style={styles.location}>{user.location.city}, {user.location.country}</Text>
+        <Text style={styles.location}>
+          {user.location.city}, {user.location.country}
+        </Text>
         <Text style={styles.description}>
-          {user.bio || 'No description provided.'}
+          {user.bio || "No description provided."}
         </Text>
         <Text style={styles.interestText}>Interests</Text>
         <View style={styles.interestRow}>
@@ -80,13 +102,13 @@ const UserProfile = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   imageWrapper: {
-    position: 'relative',
+    position: "relative",
   },
   imageContainer: {
-    width: '100%',
+    width: "100%",
     height: 650,
   },
   image: {
@@ -94,37 +116,36 @@ const styles = StyleSheet.create({
     height: 650,
   },
   heartIcon: {
-    position: 'absolute',
+    position: "absolute",
     top: 17,
     right: 10,
     zIndex: 1,
-
   },
   closeIcon: {
-    marginTop:40,
-    position: 'absolute',
+    marginTop: 40,
+    position: "absolute",
     top: 25,
     left: 10,
     zIndex: 1,
   },
   indicatorContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 10,
     left: 0,
     right: 0,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   indicator: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#E1E1E1',
+    backgroundColor: "#E1E1E1",
     marginHorizontal: 5,
   },
   indicatorActive: {
-    backgroundColor: '#E91E63',
+    backgroundColor: "#E91E63",
   },
   details: {
     paddingHorizontal: 20,
@@ -132,12 +153,12 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   location: {
     fontSize: 20,
     marginBottom: 10,
-    fontWeight: '400',
+    fontWeight: "400",
   },
   description: {
     paddingVertical: 20,
@@ -145,28 +166,28 @@ const styles = StyleSheet.create({
   },
   interestText: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   interestRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 10,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   interestCol: {
     paddingHorizontal: 20,
     paddingVertical: 5,
     margin: 3,
-    backgroundColor: '#ce1694',
+    backgroundColor: "#ce1694",
     borderRadius: 15,
   },
   interest: {
-    color: 'white',
-    textTransform: 'uppercase',
+    color: "white",
+    textTransform: "uppercase",
     fontSize: 11,
   },
   noInterests: {
     fontSize: 14,
-    color: 'grey',
+    color: "grey",
   },
 });
 

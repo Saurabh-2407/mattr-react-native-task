@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import data from '../assets/data.json';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import data from "../assets/data.json";
 
 const FilterScreen = ({ navigation }) => {
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedAgeRange, setSelectedAgeRange] = useState(null);
-  const [selectedSortBy, setSelectedSortBy] = useState('Score');
-  const [selectedSortOrder, setSelectedSortOrder] = useState('Ascending');
+  const [selectedSortBy, setSelectedSortBy] = useState("Score");
+  const [selectedSortOrder, setSelectedSortOrder] = useState("Ascending");
 
-  const genders = ['MALE', 'FEMALE'];
-  const ageRanges = ['20-24', '25-30', '30-40', '40+'];
-  const sortByOptions = ['Score', 'Date Joined'];
-  const sortOrderOptions = ['Ascending', 'Descending'];
+  const genders = ["MALE", "FEMALE"];
+  const ageRanges = ["20-24", "25-30", "30-40", "40+"];
+  const sortByOptions = ["Score", "Date Joined"];
+  const sortOrderOptions = ["Ascending", "Descending"];
 
   const handleGenderPress = (gender) => {
     setSelectedGender(gender);
@@ -25,7 +32,9 @@ const FilterScreen = ({ navigation }) => {
   const applyFilters = () => {
     let filteredConnections = data.map((item) => ({
       name: `${item.first_name} ${item.last_name}`,
-      age: new Date().getFullYear() - new Date(item.dob.split('/').reverse().join('-')).getFullYear(),
+      age:
+        new Date().getFullYear() -
+        new Date(item.dob.split("/").reverse().join("-")).getFullYear(),
       location: `${item.location.city}, ${item.location.country}`,
       topMatch: item.score > 50,
       image: item.photos[0].path,
@@ -36,23 +45,34 @@ const FilterScreen = ({ navigation }) => {
     }));
 
     if (selectedGender) {
-      filteredConnections = filteredConnections.filter(connection => connection.gender.toUpperCase() === selectedGender);
+      filteredConnections = filteredConnections.filter(
+        (connection) => connection.gender.toUpperCase() === selectedGender
+      );
     }
 
     if (selectedAgeRange) {
-      const [minAge, maxAge] = selectedAgeRange.split('-').map(Number);
-      filteredConnections = filteredConnections.filter(connection => connection.age >= minAge && (maxAge ? connection.age <= maxAge : true));
+      const [minAge, maxAge] = selectedAgeRange.split("-").map(Number);
+      filteredConnections = filteredConnections.filter(
+        (connection) =>
+          connection.age >= minAge && (maxAge ? connection.age <= maxAge : true)
+      );
     }
 
-    if (selectedSortBy === 'Score') {
-      filteredConnections.sort((a, b) => selectedSortOrder === 'Ascending' ? a.score - b.score : b.score - a.score);
-    } else if (selectedSortBy === 'Date Joined') {
-      filteredConnections.sort((a, b) => selectedSortOrder === 'Ascending'
-        ? new Date(a.created_at) - new Date(b.created_at)
-        : new Date(b.created_at) - new Date(a.created_at));
+    if (selectedSortBy === "Score") {
+      filteredConnections.sort((a, b) =>
+        selectedSortOrder === "Ascending"
+          ? a.score - b.score
+          : b.score - a.score
+      );
+    } else if (selectedSortBy === "Date Joined") {
+      filteredConnections.sort((a, b) =>
+        selectedSortOrder === "Ascending"
+          ? new Date(a.created_at) - new Date(b.created_at)
+          : new Date(b.created_at) - new Date(a.created_at)
+      );
     }
 
-    navigation.navigate('Home', { filteredConnections });
+    navigation.navigate("Home", { filteredConnections });
   };
 
   return (
@@ -62,12 +82,14 @@ const FilterScreen = ({ navigation }) => {
           <Text style={styles.inactiveHeaderText}>Cancel</Text>
         </TouchableOpacity>
         <Text style={styles.activeHeaderText}>Filter</Text>
-        <TouchableOpacity onPress={() => {
-          setSelectedGender(null);
-          setSelectedAgeRange(null);
-          setSelectedSortBy('Score');
-          setSelectedSortOrder('Ascending');
-        }}>
+        <TouchableOpacity
+          onPress={() => {
+            setSelectedGender(null);
+            setSelectedAgeRange(null);
+            setSelectedSortBy("Score");
+            setSelectedSortOrder("Ascending");
+          }}
+        >
           <Text style={styles.inactiveHeaderText}>Clear All</Text>
         </TouchableOpacity>
       </View>
@@ -89,7 +111,8 @@ const FilterScreen = ({ navigation }) => {
                   <Text
                     style={[
                       styles.optionButtonText,
-                      selectedGender === gender && styles.optionButtonTextSelected,
+                      selectedGender === gender &&
+                        styles.optionButtonTextSelected,
                     ]}
                   >
                     {gender}
@@ -114,7 +137,8 @@ const FilterScreen = ({ navigation }) => {
                   <Text
                     style={[
                       styles.optionButtonText,
-                      selectedAgeRange === range && styles.optionButtonTextSelected,
+                      selectedAgeRange === range &&
+                        styles.optionButtonTextSelected,
                     ]}
                   >
                     {range}
@@ -166,26 +190,26 @@ const FilterScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginTop: 50,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#E1E1E1',
+    borderBottomColor: "#E1E1E1",
   },
   activeHeaderText: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#E91E63',
+    fontWeight: "bold",
+    color: "#E91E63",
   },
   inactiveHeaderText: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: 'grey',
+    fontWeight: "bold",
+    color: "grey",
   },
   scrollContainer: {
     paddingHorizontal: 20,
@@ -199,56 +223,56 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
     marginTop: 20,
   },
   optionsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     borderBottomWidth: 1,
-    borderBottomColor: '#E1E1E1',
+    borderBottomColor: "#E1E1E1",
   },
   optionButton: {
     padding: 6,
     borderWidth: 1,
-    borderColor: '#E91E63',
+    borderColor: "#E91E63",
     borderRadius: 5,
     marginRight: 10,
     marginBottom: 10,
     borderRadius: 30,
     paddingHorizontal: 20,
-    backgroundColor:'#ffe3fc'
+    backgroundColor: "#ffe3fc",
   },
   optionButtonSelected: {
-    backgroundColor: '#E91E63',
+    backgroundColor: "#E91E63",
   },
   optionButtonText: {
-    color: '#E91E63',
+    color: "#E91E63",
   },
   optionButtonTextSelected: {
-    color: 'white',
+    color: "white",
   },
   pickerContainer: {
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: "black",
     borderRadius: 5,
-    overflow: 'hidden',
+    overflow: "hidden",
     borderRadius: 20,
   },
   picker: {
     height: 50,
-    width: '100%',
+    width: "100%",
   },
   applyButton: {
     paddingVertical: 15,
-    backgroundColor: '#E91E63',
-    alignItems: 'center',
+    backgroundColor: "#E91E63",
+    alignItems: "center",
   },
   applyButtonText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 

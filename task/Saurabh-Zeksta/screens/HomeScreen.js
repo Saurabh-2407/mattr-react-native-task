@@ -1,15 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import ConnectionCard from '../components/ConnectionCard';
-import data from '../assets/data.json';
-import Footer from '../components/Footer';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
+import ConnectionCard from "../components/ConnectionCard";
+import data from "../assets/data.json";
+import Footer from "../components/Footer";
 
 const HomeScreen = ({ navigation, route }) => {
   const [connections, setConnections] = useState([]);
 
   const allConnections = data.map((item) => ({
     name: `${item.first_name} ${item.last_name}`,
-    age: new Date().getFullYear() - new Date(item.dob.split('/').reverse().join('-')).getFullYear(),
+    age:
+      new Date().getFullYear() -
+      new Date(item.dob.split("/").reverse().join("-")).getFullYear(),
     location: `${item.location.city}, ${item.location.country}`,
     topMatch: item.score > 50,
     image: item.photos[0].path,
@@ -39,7 +47,7 @@ const HomeScreen = ({ navigation, route }) => {
         <Text style={styles.title}>Daily Connections</Text>
         <TouchableOpacity
           style={styles.filterButton}
-          onPress={() => navigation.navigate('Filter')}
+          onPress={() => navigation.navigate("Filter")}
         >
           <Text style={styles.filterButtonText}>Filter</Text>
         </TouchableOpacity>

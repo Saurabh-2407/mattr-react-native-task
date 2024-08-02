@@ -17,9 +17,21 @@ export default function App() {
           component={HomeScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Filter" component={FilterScreen} options={{ headerShown: false }}/>
-        <Stack.Screen name="UserProfile" component={UserProfile} options={{ headerShown: false }}/>
-        <Stack.Screen name="MyProfile" component={MyProfile} options={{ headerShown: false }} />
+        <Stack.Screen
+          name="Filter"
+          component={FilterScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="UserProfile"
+          component={UserProfile}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MyProfile"
+          component={MyProfile}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
