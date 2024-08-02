@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingHorizontal: 20,
-    marginTop: 40,
+    marginTop: 50,
   },
   header: {
     flexDirection: "row",
@@ -90,9 +90,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
-    marginLeft:120
+    marginLeft: 120,
   },
   filterButton: {
     padding: 10,
@@ -101,12 +101,12 @@ const styles = StyleSheet.create({
     color: "#E91E63",
   },
   refreshButton: {
-    marginVertical: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 40,
+    marginVertical: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 50,
     borderWidth: 1,
     borderColor: "#E91E63",
-    borderRadius:20,
+    borderRadius: 20,
     alignSelf: "center",
     backgroundColor: "#fff",
   },

@@ -15,11 +15,11 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ headerShown: false }} // This hides the header
+          options={{ headerShown: false }}
         />
-        <Stack.Screen name="Filter" component={FilterScreen} />
-        <Stack.Screen name="UserProfile" component={UserProfile} />
-        <Stack.Screen name="MyProfile" component={MyProfile} />
+        <Stack.Screen name="Filter" component={FilterScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="UserProfile" component={UserProfile} options={{ headerShown: false }}/>
+        <Stack.Screen name="MyProfile" component={MyProfile} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

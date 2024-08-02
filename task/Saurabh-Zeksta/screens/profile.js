@@ -2,30 +2,59 @@ import React, { useState } from 'react';
 import { View, Image, StyleSheet, Text, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const { height } = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
-const UserProfile = ({ route }) => {
+const UserProfile = ({ route, navigation }) => {
   const { user } = route.params;
   const [isFavorite, setIsFavorite] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleHeartPress = () => {
     setIsFavorite(!isFavorite);
   };
 
+  const handleScroll = (event) => {
+    const index = Math.floor(event.nativeEvent.contentOffset.x / width);
+    setCurrentImageIndex(index);
+  };
+
+  const handleClosePress = () => {
+    navigation.navigate('Home'); // Navigate to the home page
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageWrapper}>
-        <ScrollView horizontal pagingEnabled style={styles.imageContainer}>
+        <ScrollView
+          horizontal
+          pagingEnabled
+          style={styles.imageContainer}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+        >
           {user.photos.map((photo, index) => (
             <Image key={index} source={{ uri: photo.path }} style={styles.image} />
           ))}
         </ScrollView>
-  
+        <View style={styles.indicatorContainer}>
+          {user.photos.map((_, index) => (
+            <View
+              key={index}
+              style={[
+                styles.indicator,
+                index === currentImageIndex && styles.indicatorActive,
+              ]}
+            />
+          ))}
+        </View>
       </View>
+      <TouchableOpacity style={styles.closeIcon} onPress={handleClosePress}>
+        <Icon name="close" size={30} color="black" />
+      </TouchableOpacity>
       <View style={styles.details}>
         <Text style={styles.name}>{user.first_name} {user.last_name}, {new Date().getFullYear() - new Date(user.dob.split('/').reverse().join('-')).getFullYear()}</Text>
         <TouchableOpacity style={styles.heartIcon} onPress={handleHeartPress}>
-          <Icon name="favorite" size={30} color={isFavorite ? 'red' : 'pink'} />
+          <Icon name="favorite" size={30} color={isFavorite ? 'red' : '#d9cece'} />
         </TouchableOpacity>
         <Text style={styles.location}>{user.location.city}, {user.location.country}</Text>
         <Text style={styles.description}>
@@ -61,7 +90,7 @@ const styles = StyleSheet.create({
     height: height / 2,
   },
   image: {
-    width: Dimensions.get('window').width,
+    width: width,
     height: height / 2,
   },
   heartIcon: {
@@ -69,6 +98,36 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     zIndex: 1,
+    borderWidth: 2,
+    borderColor: 'black',
+    borderRadius: 15,
+    padding: 5,
+  },
+  closeIcon: {
+    marginTop:40,
+    position: 'absolute',
+    top: 10,
+    left: 20,
+    zIndex: 1,
+  },
+  indicatorContainer: {
+    position: 'absolute',
+    bottom: 10,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  indicator: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#E1E1E1',
+    marginHorizontal: 5,
+  },
+  indicatorActive: {
+    backgroundColor: '#E91E63',
   },
   details: {
     paddingHorizontal: 20,

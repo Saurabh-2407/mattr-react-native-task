@@ -55,26 +55,28 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   detailsContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#f7f0f0',
     padding: 20,
-    alignItems: 'center',
   },
   name: {
     fontSize: 18,
-    color: '#E91E63',
+    color: 'black',
     marginBottom: 5,
   },
   location: {
     fontSize: 14,
-    color: '#E91E63',
+    color: 'black',
     marginBottom: 15,
+    fontWeight:'bold'
   },
   button: {
     borderColor: '#E91E63',
     borderWidth: 1,
     borderRadius: 20,
     paddingVertical: 5,
-    paddingHorizontal: 20,
+    paddingHorizontal: 100,
+    alignSelf:'center'
+
   },
   buttonText: {
     color: '#E91E63',

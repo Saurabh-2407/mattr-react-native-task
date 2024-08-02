@@ -55,15 +55,15 @@ const FilterScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.headerText}>Cancel</Text>
+          <Text style={styles.inactiveHeaderText}>Cancel</Text>
         </TouchableOpacity>
-        <Text style={styles.headerText}>Filter</Text>
+        <Text style={styles.activeHeaderText}>Filter</Text>
         <TouchableOpacity onPress={() => {
           setSelectedGender(null);
           setSelectedAgeRange(null);
           setSelectedSortBy('Score');
         }}>
-          <Text style={styles.headerText}>Clear All</Text>
+          <Text style={styles.inactiveHeaderText}>Clear All</Text>
         </TouchableOpacity>
       </View>
 
@@ -147,19 +147,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    marginTop: 50,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#E1E1E1',
   },
-  headerText: {
-    fontSize: 18,
+  activeHeaderText: {
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#E91E63',
+  },
+  inactiveHeaderText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'grey',
   },
   scrollContainer: {
     paddingHorizontal: 20,
@@ -174,11 +180,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 20,
+    marginTop: 20,
   },
   optionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E1E1E1',
   },
   optionButton: {
     padding: 10,
@@ -187,6 +196,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginRight: 10,
     marginBottom: 10,
+    borderRadius: 20,
+    paddingHorizontal: 20,
   },
   optionButtonSelected: {
     backgroundColor: '#E91E63',
@@ -202,6 +213,7 @@ const styles = StyleSheet.create({
     borderColor: '#E91E63',
     borderRadius: 5,
     overflow: 'hidden',
+    borderRadius: 20,
   },
   picker: {
     height: 50,
@@ -218,5 +230,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
 
 export default FilterScreen;
