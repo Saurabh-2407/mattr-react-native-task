@@ -7,10 +7,12 @@ const FilterScreen = ({ navigation }) => {
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedAgeRange, setSelectedAgeRange] = useState(null);
   const [selectedSortBy, setSelectedSortBy] = useState('Score');
+  const [selectedSortOrder, setSelectedSortOrder] = useState('Ascending');
 
   const genders = ['MALE', 'FEMALE'];
   const ageRanges = ['20-24', '25-30', '30-40', '40+'];
   const sortByOptions = ['Score', 'Date Joined'];
+  const sortOrderOptions = ['Ascending', 'Descending'];
 
   const handleGenderPress = (gender) => {
     setSelectedGender(gender);
@@ -43,9 +45,11 @@ const FilterScreen = ({ navigation }) => {
     }
 
     if (selectedSortBy === 'Score') {
-      filteredConnections.sort((a, b) => b.score - a.score);
+      filteredConnections.sort((a, b) => selectedSortOrder === 'Ascending' ? a.score - b.score : b.score - a.score);
     } else if (selectedSortBy === 'Date Joined') {
-      filteredConnections.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      filteredConnections.sort((a, b) => selectedSortOrder === 'Ascending'
+        ? new Date(a.created_at) - new Date(b.created_at)
+        : new Date(b.created_at) - new Date(a.created_at));
     }
 
     navigation.navigate('Home', { filteredConnections });
@@ -62,6 +66,7 @@ const FilterScreen = ({ navigation }) => {
           setSelectedGender(null);
           setSelectedAgeRange(null);
           setSelectedSortBy('Score');
+          setSelectedSortOrder('Ascending');
         }}>
           <Text style={styles.inactiveHeaderText}>Clear All</Text>
         </TouchableOpacity>
@@ -128,6 +133,21 @@ const FilterScreen = ({ navigation }) => {
                 onValueChange={(itemValue) => setSelectedSortBy(itemValue)}
               >
                 {sortByOptions.map((option) => (
+                  <Picker.Item key={option} label={option} value={option} />
+                ))}
+              </Picker>
+            </View>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Sort Order</Text>
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={selectedSortOrder}
+                style={styles.picker}
+                onValueChange={(itemValue) => setSelectedSortOrder(itemValue)}
+              >
+                {sortOrderOptions.map((option) => (
                   <Picker.Item key={option} label={option} value={option} />
                 ))}
               </Picker>
@@ -231,6 +251,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
 
 export default FilterScreen;
