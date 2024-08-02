@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
-const ConnectionCard = ({ name, age, location, topMatch, image }) => {
+const ConnectionCard = ({ name, age, location, topMatch, image, navigation, user }) => {
   return (
     <View style={styles.card}>
       {topMatch && <Text style={styles.topMatch}>TOP MATCH</Text>}
@@ -11,7 +11,10 @@ const ConnectionCard = ({ name, age, location, topMatch, image }) => {
       <View style={styles.detailsContainer}>
         <Text style={styles.name}>{name}, {age}</Text>
         <Text style={styles.location}>{location}</Text>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => navigation.navigate('UserProfile', { user })}
+        >
           <Text style={styles.buttonText}>View Profile</Text>
         </TouchableOpacity>
       </View>
@@ -20,21 +23,22 @@ const ConnectionCard = ({ name, age, location, topMatch, image }) => {
 };
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: 10,
-    marginVertical: 10,
-    width: Dimensions.get('window').width - 40,
-    alignSelf: 'center',
-    position: 'relative',
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: '#E91E63', // Adjust the color as needed
-  },
+    card: {
+      borderRadius: 10,
+      marginVertical: 10,
+      width: Dimensions.get('window').width - 40,
+      alignSelf: 'center',
+      position: 'relative',
+      overflow: 'hidden',
+      borderWidth: 1,
+      borderColor: '#e6ede8',
+    },
+  
   topMatch: {
     position: 'absolute',
     top: 10,
     right: 10,
-    backgroundColor: 'black',
+    backgroundColor: '#E91E63',
     color: 'white',
     paddingHorizontal: 5,
     paddingVertical: 2,

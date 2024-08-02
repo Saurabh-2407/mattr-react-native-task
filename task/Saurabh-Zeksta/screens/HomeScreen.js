@@ -1,16 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import ConnectionCard from '../components/ConnectionCard';
 import data from '../assets/data.json';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const HomeScreen = ({ navigation }) => {
-  const connections = data.map((item) => ({
+  const allConnections = data.map((item) => ({
     name: `${item.first_name} ${item.last_name}`,
     age: new Date().getFullYear() - new Date(item.dob.split('/').reverse().join('-')).getFullYear(),
     location: `${item.location.city}, ${item.location.country}`,
     topMatch: item.score > 50,
-    image: item.photos[0].path, // Assuming you want to use the first photo
+    image: item.photos[0].path,
+    user: item,
   }));
+
+  const [connections, setConnections] = useState([]);
+
+  const getRandomConnections = () => {
+    const shuffled = [...allConnections].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 5);
+  };
+
+  useEffect(() => {
+    setConnections(getRandomConnections());
+  }, []);
+
+  const handleRefresh = () => {
+    setConnections(getRandomConnections());
+  };
 
   return (
     <View style={styles.container}>
@@ -23,22 +40,28 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.filterButtonText}>Filter</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.refreshButton}>
+      <TouchableOpacity style={styles.refreshButton} onPress={handleRefresh}>
         <Text style={styles.refreshButtonText}>Refresh</Text>
       </TouchableOpacity>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {connections.map((connection, index) => (
-          <ConnectionCard key={index} {...connection} />
+          <ConnectionCard
+            key={index}
+            {...connection}
+            navigation={navigation}
+          />
         ))}
       </ScrollView>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.footerButton}>
+          <Icon name="explore" size={24} color="#E91E63" />
           <Text style={styles.footerButtonText}>Activity</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.footerButton}
           onPress={() => navigation.navigate('MyProfile')}
         >
+          <Icon name="person" size={24} color="#E91E63" />
           <Text style={styles.footerButtonText}>Profile</Text>
         </TouchableOpacity>
       </View>
@@ -92,9 +115,11 @@ const styles = StyleSheet.create({
   },
   footerButton: {
     padding: 10,
+    alignItems: 'center',
   },
   footerButtonText: {
     color: '#E91E63',
+    marginTop: 5,
   },
 });
 

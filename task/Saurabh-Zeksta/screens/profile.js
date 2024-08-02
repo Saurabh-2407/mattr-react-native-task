@@ -3,27 +3,33 @@ import { View, Image, StyleSheet, Text, Dimensions, ScrollView } from 'react-nat
 
 const { height } = Dimensions.get('window');
 
-const UserProfile = () => {
+const UserProfile = ({ route }) => {
+  const { user } = route.params;
+
   return (
     <ScrollView style={styles.container}>
-      <Image source={require('../assets/pexels-pixabay-33109.jpg')} style={styles.image} />
+      <ScrollView horizontal pagingEnabled style={styles.imageContainer}>
+        {user.photos.map((photo, index) => (
+          <Image key={index} source={{ uri: photo.path }} style={styles.image} />
+        ))}
+      </ScrollView>
       <View style={styles.details}>
-        <Text style={styles.name}>Frank Stark, 23</Text>
-        <Text style={styles.location}>London, United Kingdom</Text>
+        <Text style={styles.name}>{user.first_name} {user.last_name}, {new Date().getFullYear() - new Date(user.dob.split('/').reverse().join('-')).getFullYear()}</Text>
+        <Text style={styles.location}>{user.location.city}, {user.location.country}</Text>
         <Text style={styles.description}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+          {user.bio || 'No description provided.'}
         </Text>
         <Text style={styles.interestText}>Interests</Text>
         <View style={styles.interestRow}>
-          <View style={styles.interestCol}>
-            <Text style={styles.interest}>Running</Text>
-          </View>
-          <View style={styles.interestCol}>
-            <Text style={styles.interest}>Hiking</Text>
-          </View>
-          <View style={styles.interestCol}>
-            <Text style={styles.interest}>Outdoors</Text>
-          </View>
+          {user.interests && user.interests.length > 0 ? (
+            user.interests.map((interest, index) => (
+              <View key={index} style={styles.interestCol}>
+                <Text style={styles.interest}>{interest.name}</Text>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.noInterests}>No interests listed.</Text>
+          )}
         </View>
       </View>
     </ScrollView>
@@ -35,8 +41,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  image: {
+  imageContainer: {
     width: '100%',
+    height: height / 2,
+  },
+  image: {
+    width: Dimensions.get('window').width,
     height: height / 2,
   },
   details: {
@@ -76,6 +86,10 @@ const styles = StyleSheet.create({
     color: 'white',
     textTransform: 'uppercase',
     fontSize: 11,
+  },
+  noInterests: {
+    fontSize: 14,
+    color: 'grey',
   },
 });
 
