@@ -6,7 +6,7 @@ const { height } = Dimensions.get('window');
 
 const UserProfile = ({ route }) => {
   const { user } = route.params;
-  const [isFavorite, setIsFavorite] = useState(false); // State to manage the heart icon color
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleHeartPress = () => {
     setIsFavorite(!isFavorite);
