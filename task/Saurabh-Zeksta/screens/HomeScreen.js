@@ -1,15 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import ConnectionCard from '../components/ConnectionCard';
-import data from '../assets/data.json';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
+import ConnectionCard from "../components/ConnectionCard";
+import data from "../assets/data.json";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const HomeScreen = ({ navigation, route }) => {
   const [connections, setConnections] = useState([]);
 
   const allConnections = data.map((item) => ({
     name: `${item.first_name} ${item.last_name}`,
-    age: new Date().getFullYear() - new Date(item.dob.split('/').reverse().join('-')).getFullYear(),
+    age:
+      new Date().getFullYear() -
+      new Date(item.dob.split("/").reverse().join("-")).getFullYear(),
     location: `${item.location.city}, ${item.location.country}`,
     topMatch: item.score > 50,
     image: item.photos[0].path,
@@ -39,7 +47,7 @@ const HomeScreen = ({ navigation, route }) => {
         <Text style={styles.title}>Daily Connections</Text>
         <TouchableOpacity
           style={styles.filterButton}
-          onPress={() => navigation.navigate('Filter')}
+          onPress={() => navigation.navigate("Filter")}
         >
           <Text style={styles.filterButtonText}>Filter</Text>
         </TouchableOpacity>
@@ -49,11 +57,7 @@ const HomeScreen = ({ navigation, route }) => {
       </TouchableOpacity>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {connections.map((connection, index) => (
-          <ConnectionCard
-            key={index}
-            {...connection}
-            navigation={navigation}
-          />
+          <ConnectionCard key={index} {...connection} navigation={navigation} />
         ))}
       </ScrollView>
       <View style={styles.footer}>
@@ -63,7 +67,7 @@ const HomeScreen = ({ navigation, route }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.footerButton}
-          onPress={() => navigation.navigate('MyProfile')}
+          onPress={() => navigation.navigate("MyProfile")}
         >
           <Icon name="person" size={24} color="#E91E63" />
           <Text style={styles.footerButtonText}>Profile</Text>
@@ -76,53 +80,55 @@ const HomeScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     paddingHorizontal: 20,
+    marginTop: 40,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
+    marginLeft:120
   },
   filterButton: {
     padding: 10,
   },
   filterButtonText: {
-    color: '#E91E63',
+    color: "#E91E63",
   },
   refreshButton: {
     marginVertical: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderColor: '#E91E63',
+    borderColor: "#E91E63",
     borderRadius: 50,
-    alignSelf: 'center',
-    backgroundColor: '#fff',
+    alignSelf: "center",
+    backgroundColor: "#fff",
   },
   refreshButtonText: {
-    color: '#E91E63',
+    color: "#E91E63",
   },
   scrollView: {
     paddingBottom: 20,
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     paddingVertical: 10,
-    borderColor: '#E91E63',
+    borderColor: "#E91E63",
   },
   footerButton: {
     padding: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   footerButtonText: {
-    color: '#E91E63',
+    color: "#E91E63",
     marginTop: 5,
   },
 });
