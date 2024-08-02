@@ -1,23 +1,15 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
-import ConnectionCard from "../components/ConnectionCard";
-import data from "../assets/data.json";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import ConnectionCard from '../components/ConnectionCard';
+import data from '../assets/data.json';
+import Footer from '../components/Footer';
 
 const HomeScreen = ({ navigation, route }) => {
   const [connections, setConnections] = useState([]);
 
   const allConnections = data.map((item) => ({
     name: `${item.first_name} ${item.last_name}`,
-    age:
-      new Date().getFullYear() -
-      new Date(item.dob.split("/").reverse().join("-")).getFullYear(),
+    age: new Date().getFullYear() - new Date(item.dob.split('/').reverse().join('-')).getFullYear(),
     location: `${item.location.city}, ${item.location.country}`,
     topMatch: item.score > 50,
     image: item.photos[0].path,
@@ -47,7 +39,7 @@ const HomeScreen = ({ navigation, route }) => {
         <Text style={styles.title}>Daily Connections</Text>
         <TouchableOpacity
           style={styles.filterButton}
-          onPress={() => navigation.navigate("Filter")}
+          onPress={() => navigation.navigate('Filter')}
         >
           <Text style={styles.filterButtonText}>Filter</Text>
         </TouchableOpacity>
@@ -57,22 +49,15 @@ const HomeScreen = ({ navigation, route }) => {
       </TouchableOpacity>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {connections.map((connection, index) => (
-          <ConnectionCard key={index} {...connection} navigation={navigation} />
+          <ConnectionCard
+            key={index}
+            {...connection}
+            navigation={navigation}
+            showTopMatch={index === 0}
+          />
         ))}
       </ScrollView>
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerButton}>
-          <Icon name="explore" size={24} color="#E91E63" />
-          <Text style={styles.footerButtonText}>Activity</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.footerButton}
-          onPress={() => navigation.navigate("MyProfile")}
-        >
-          <Icon name="person" size={24} color="#E91E63" />
-          <Text style={styles.footerButtonText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
+      <Footer navigation={navigation} activeTab="activity" />
     </View>
   );
 };
@@ -115,21 +100,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     paddingBottom: 20,
-  },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    paddingVertical: 20,
-    borderColor: "#E91E63",
-  },
-  footerButton: {
-    padding: -10,
-    alignItems: "center",
-  },
-  footerButtonText: {
-    color: "#E91E63",
-    marginTop: -2,
   },
 });
 

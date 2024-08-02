@@ -87,11 +87,11 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '100%',
-    height: height / 2,
+    height: 650,
   },
   image: {
     width: width,
-    height: height / 2,
+    height: 650,
   },
   heartIcon: {
     position: 'absolute',
@@ -103,8 +103,8 @@ const styles = StyleSheet.create({
   closeIcon: {
     marginTop:40,
     position: 'absolute',
-    top: 10,
-    left: 20,
+    top: 25,
+    left: 10,
     zIndex: 1,
   },
   indicatorContainer: {

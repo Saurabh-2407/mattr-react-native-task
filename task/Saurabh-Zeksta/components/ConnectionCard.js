@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
-const ConnectionCard = ({ name, age, location, topMatch, image, navigation, user }) => {
+const ConnectionCard = ({ name, age, location, topMatch, image, navigation, user, showTopMatch }) => {
   return (
     <View style={styles.card}>
-      {topMatch && <Text style={styles.topMatch}>TOP MATCH</Text>}
+      {showTopMatch && <Text style={styles.topMatch}>TOP MATCH</Text>}
       <View style={styles.imageContainer}>
         <Image source={{ uri: image }} style={styles.image} />
       </View>
@@ -23,17 +23,16 @@ const ConnectionCard = ({ name, age, location, topMatch, image, navigation, user
 };
 
 const styles = StyleSheet.create({
-    card: {
-      borderRadius: 10,
-      marginVertical: 10,
-      width: Dimensions.get('window').width - 40,
-      alignSelf: 'center',
-      position: 'relative',
-      overflow: 'hidden',
-      borderWidth: 1,
-      borderColor: '#e6ede8',
-    },
-  
+  card: {
+    borderRadius: 10,
+    marginVertical: 10,
+    width: Dimensions.get('window').width - 40,
+    alignSelf: 'center',
+    position: 'relative',
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#e6ede8',
+  },
   topMatch: {
     position: 'absolute',
     top: 10,
@@ -49,13 +48,14 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: '100%',
     height: 200,
+    backgroundColor:'white'
   },
   image: {
     width: '100%',
     height: '100%',
   },
   detailsContainer: {
-    backgroundColor: '#f7f0f0',
+    backgroundColor: '#edebed',
     padding: 20,
   },
   name: {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'black',
     marginBottom: 15,
-    fontWeight:'bold'
+    fontWeight: 'bold',
   },
   button: {
     borderColor: '#E91E63',
@@ -75,8 +75,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 100,
-    alignSelf:'center'
-
+    alignSelf: 'center',
   },
   buttonText: {
     color: '#E91E63',
