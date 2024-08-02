@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import data from '../assets/data.json';
 
-const FilterScreen = () => {
+const FilterScreen = ({ navigation }) => {
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedAgeRange, setSelectedAgeRange] = useState(null);
   const [selectedSortBy, setSelectedSortBy] = useState('Score');
@@ -19,14 +20,49 @@ const FilterScreen = () => {
     setSelectedAgeRange(ageRange);
   };
 
+  const applyFilters = () => {
+    let filteredConnections = data.map((item) => ({
+      name: `${item.first_name} ${item.last_name}`,
+      age: new Date().getFullYear() - new Date(item.dob.split('/').reverse().join('-')).getFullYear(),
+      location: `${item.location.city}, ${item.location.country}`,
+      topMatch: item.score > 50,
+      image: item.photos[0].path,
+      user: item,
+      gender: item.gender,
+      score: item.score,
+      created_at: item.created_at,
+    }));
+
+    if (selectedGender) {
+      filteredConnections = filteredConnections.filter(connection => connection.gender.toUpperCase() === selectedGender);
+    }
+
+    if (selectedAgeRange) {
+      const [minAge, maxAge] = selectedAgeRange.split('-').map(Number);
+      filteredConnections = filteredConnections.filter(connection => connection.age >= minAge && (maxAge ? connection.age <= maxAge : true));
+    }
+
+    if (selectedSortBy === 'Score') {
+      filteredConnections.sort((a, b) => b.score - a.score);
+    } else if (selectedSortBy === 'Date Joined') {
+      filteredConnections.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    }
+
+    navigation.navigate('Home', { filteredConnections });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.headerText}>Cancel</Text>
         </TouchableOpacity>
         <Text style={styles.headerText}>Filter</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          setSelectedGender(null);
+          setSelectedAgeRange(null);
+          setSelectedSortBy('Score');
+        }}>
           <Text style={styles.headerText}>Clear All</Text>
         </TouchableOpacity>
       </View>
@@ -100,7 +136,7 @@ const FilterScreen = () => {
         </View>
       </ScrollView>
 
-      <TouchableOpacity style={styles.applyButton}>
+      <TouchableOpacity style={styles.applyButton} onPress={applyFilters}>
         <Text style={styles.applyButtonText}>Apply Filters</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -110,77 +146,76 @@ const FilterScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 16,
-    backgroundColor: '#fff',
+    alignItems: 'center',
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E1E1E1',
   },
   headerText: {
-    fontSize: 16,
-    color: '#D81B60',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#E91E63',
   },
   scrollContainer: {
-    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingTop: 10,
   },
   content: {
     flex: 1,
-    paddingHorizontal: 16,
   },
   section: {
-    marginVertical: 16,
+    marginBottom: 20,
   },
   sectionTitle: {
-    marginTop: 20,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   optionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
   optionButton: {
-    marginTop: 20,
-    backgroundColor: '#F8BBD0',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-    margin: 4,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#E91E63',
+    borderRadius: 5,
+    marginRight: 10,
+    marginBottom: 10,
   },
   optionButtonSelected: {
-    backgroundColor: '#C2185B',
+    backgroundColor: '#E91E63',
   },
   optionButtonText: {
-    color: '#000',
-    fontSize: 14,
+    color: '#E91E63',
   },
   optionButtonTextSelected: {
-    color: '#fff',
+    color: 'white',
   },
   pickerContainer: {
-    borderColor: '#F8BBD0',
     borderWidth: 1,
-    borderRadius: 20,
+    borderColor: '#E91E63',
+    borderRadius: 5,
     overflow: 'hidden',
-    marginBottom: 16,
   },
   picker: {
     height: 50,
     width: '100%',
   },
   applyButton: {
-    backgroundColor: '#D81B60',
-    paddingVertical: 16,
-    borderRadius: 20,
+    paddingVertical: 15,
+    backgroundColor: '#E91E63',
     alignItems: 'center',
-    marginVertical: 16,
   },
   applyButtonText: {
-    color: '#fff',
+    color: 'white',
     fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

@@ -4,7 +4,9 @@ import ConnectionCard from '../components/ConnectionCard';
 import data from '../assets/data.json';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, route }) => {
+  const [connections, setConnections] = useState([]);
+
   const allConnections = data.map((item) => ({
     name: `${item.first_name} ${item.last_name}`,
     age: new Date().getFullYear() - new Date(item.dob.split('/').reverse().join('-')).getFullYear(),
@@ -14,16 +16,18 @@ const HomeScreen = ({ navigation }) => {
     user: item,
   }));
 
-  const [connections, setConnections] = useState([]);
-
   const getRandomConnections = () => {
     const shuffled = [...allConnections].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 5);
   };
 
   useEffect(() => {
-    setConnections(getRandomConnections());
-  }, []);
+    if (route.params?.filteredConnections) {
+      setConnections(route.params.filteredConnections);
+    } else {
+      setConnections(getRandomConnections());
+    }
+  }, [route.params]);
 
   const handleRefresh = () => {
     setConnections(getRandomConnections());
