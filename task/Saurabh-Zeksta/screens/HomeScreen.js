@@ -9,7 +9,9 @@ const HomeScreen = ({ navigation }) => {
     age: new Date().getFullYear() - new Date(item.dob.split('/').reverse().join('-')).getFullYear(),
     location: `${item.location.city}, ${item.location.country}`,
     topMatch: item.score > 50,
+    image: item.photos[0].path, // Assuming you want to use the first photo
   }));
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -49,7 +51,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingHorizontal: 20,
-  
   },
   header: {
     flexDirection: 'row',

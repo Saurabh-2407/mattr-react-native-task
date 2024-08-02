@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
-const ConnectionCard = ({ name, age, location, topMatch }) => {
+const ConnectionCard = ({ name, age, location, topMatch, image }) => {
   return (
     <View style={styles.card}>
       {topMatch && <Text style={styles.topMatch}>TOP MATCH</Text>}
       <View style={styles.imageContainer}>
-        <Image source={require('../assets/pexels-pixabay-33109.jpg')} style={styles.image} />
+        <Image source={{ uri: image }} style={styles.image} />
       </View>
       <View style={styles.detailsContainer}>
         <Text style={styles.name}>{name}, {age}</Text>
