@@ -190,14 +190,15 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E1E1E1',
   },
   optionButton: {
-    padding: 10,
+    padding: 6,
     borderWidth: 1,
     borderColor: '#E91E63',
     borderRadius: 5,
     marginRight: 10,
     marginBottom: 10,
-    borderRadius: 20,
+    borderRadius: 30,
     paddingHorizontal: 20,
+    backgroundColor:'#ffe3fc'
   },
   optionButtonSelected: {
     backgroundColor: '#E91E63',
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
   },
   pickerContainer: {
     borderWidth: 1,
-    borderColor: '#E91E63',
+    borderColor: 'black',
     borderRadius: 5,
     overflow: 'hidden',
     borderRadius: 20,

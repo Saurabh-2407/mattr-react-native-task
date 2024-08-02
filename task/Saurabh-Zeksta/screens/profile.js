@@ -19,7 +19,7 @@ const UserProfile = ({ route, navigation }) => {
   };
 
   const handleClosePress = () => {
-    navigation.navigate('Home'); // Navigate to the home page
+    navigation.navigate('Home');
   };
 
   return (
@@ -95,13 +95,10 @@ const styles = StyleSheet.create({
   },
   heartIcon: {
     position: 'absolute',
-    top: 10,
+    top: 17,
     right: 10,
     zIndex: 1,
-    borderWidth: 2,
-    borderColor: 'black',
-    borderRadius: 15,
-    padding: 5,
+
   },
   closeIcon: {
     marginTop:40,

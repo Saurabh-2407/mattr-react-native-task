@@ -120,16 +120,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    paddingVertical: 10,
+    paddingVertical: 20,
     borderColor: "#E91E63",
   },
   footerButton: {
-    padding: 10,
+    padding: -10,
     alignItems: "center",
   },
   footerButtonText: {
     color: "#E91E63",
-    marginTop: 5,
+    marginTop: -2,
   },
 });
 
