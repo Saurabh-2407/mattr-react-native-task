@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
   View,
   Text,
@@ -13,21 +13,25 @@ import Footer from "../components/Footer";
 const HomeScreen = ({ navigation, route }) => {
   const [connections, setConnections] = useState([]);
 
-  const allConnections = data.map((item) => ({
-    name: `${item.first_name} ${item.last_name}`,
-    age:
-      new Date().getFullYear() -
-      new Date(item.dob.split("/").reverse().join("-")).getFullYear(),
-    location: `${item.location.city}, ${item.location.country}`,
-    topMatch: item.score > 50,
-    image: item.photos[0].path,
-    user: item,
-  }));
+  const allConnections = useMemo(
+    () =>
+      data.map((item) => ({
+        name: `${item.first_name} ${item.last_name}`,
+        age:
+          new Date().getFullYear() -
+          new Date(item.dob.split("/").reverse().join("-")).getFullYear(),
+        location: `${item.location.city}, ${item.location.country}`,
+        topMatch: item.score > 50,
+        image: item.photos[0].path,
+        user: item,
+      })),
+    []
+  );
 
-  const getRandomConnections = () => {
+  const getRandomConnections = useCallback(() => {
     const shuffled = [...allConnections].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 5);
-  };
+  }, [allConnections]);
 
   useEffect(() => {
     if (route.params?.filteredConnections) {
@@ -35,11 +39,15 @@ const HomeScreen = ({ navigation, route }) => {
     } else {
       setConnections(getRandomConnections());
     }
-  }, [route.params]);
+  }, [route.params, getRandomConnections]);
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(() => {
     setConnections(getRandomConnections());
-  };
+  }, [getRandomConnections]);
+
+  const navigateToFilter = useCallback(() => {
+    navigation.navigate("Filter");
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -47,7 +55,7 @@ const HomeScreen = ({ navigation, route }) => {
         <Text style={styles.title}>Daily Connections</Text>
         <TouchableOpacity
           style={styles.filterButton}
-          onPress={() => navigation.navigate("Filter")}
+          onPress={navigateToFilter}
         >
           <Text style={styles.filterButtonText}>Filter</Text>
         </TouchableOpacity>
@@ -111,4 +119,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default React.memo(HomeScreen);

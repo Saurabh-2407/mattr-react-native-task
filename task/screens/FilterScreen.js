@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -21,15 +21,15 @@ const FilterScreen = ({ navigation }) => {
   const sortByOptions = ["Score", "Date Joined"];
   const sortOrderOptions = ["Ascending", "Descending"];
 
-  const handleGenderPress = (gender) => {
+  const handleGenderPress = useCallback((gender) => {
     setSelectedGender(gender);
-  };
+  }, []);
 
-  const handleAgeRangePress = (ageRange) => {
+  const handleAgeRangePress = useCallback((ageRange) => {
     setSelectedAgeRange(ageRange);
-  };
+  }, []);
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filteredConnections = data.map((item) => ({
       name: `${item.first_name} ${item.last_name}`,
       age:
@@ -73,7 +73,20 @@ const FilterScreen = ({ navigation }) => {
     }
 
     navigation.navigate("Home", { filteredConnections });
-  };
+  }, [
+    selectedGender,
+    selectedAgeRange,
+    selectedSortBy,
+    selectedSortOrder,
+    navigation,
+  ]);
+
+  const clearFilters = useCallback(() => {
+    setSelectedGender(null);
+    setSelectedAgeRange(null);
+    setSelectedSortBy("Score");
+    setSelectedSortOrder("Ascending");
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -82,14 +95,7 @@ const FilterScreen = ({ navigation }) => {
           <Text style={styles.inactiveHeaderText}>Cancel</Text>
         </TouchableOpacity>
         <Text style={styles.activeHeaderText}>Filter</Text>
-        <TouchableOpacity
-          onPress={() => {
-            setSelectedGender(null);
-            setSelectedAgeRange(null);
-            setSelectedSortBy("Score");
-            setSelectedSortOrder("Ascending");
-          }}
-        >
+        <TouchableOpacity onPress={clearFilters}>
           <Text style={styles.inactiveHeaderText}>Clear All</Text>
         </TouchableOpacity>
       </View>
@@ -276,4 +282,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FilterScreen;
+export default React.memo(FilterScreen);
